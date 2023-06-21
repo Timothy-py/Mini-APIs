@@ -24,3 +24,21 @@ exports.createProduct = (req, res) => {
         })
     })
 }
+
+// get all products
+exports.getProducts = (req, res) => {
+    db.all('SELECT id, name, price, description FROM products', (err, rows)=>{
+        if(err){
+            console.error(err)
+            return res.status(500).json({
+                status: 'error',
+                message: "Internal server error",
+            });
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            data: rows
+        })
+    })
+}
