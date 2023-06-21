@@ -1,4 +1,5 @@
 const express = require('express');
+const db = require('./db')
 const routes = require('./routes/routes')
 
 // initialize express app
@@ -6,11 +7,13 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+db;
+
+// parse req
+app.use(express.json());
+
 // set route
 app.use('/api/1', routes);
-
-// middlewares
-app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
