@@ -140,4 +140,21 @@ exports.getCart = (req, res) => {
             data: rows
         })
     })
+};
+
+// remove a product from cart
+exports.removeProductFromCart = (req, res) => {
+    const {id} = req.params;
+    
+    db.run('DELETE FROM cart WHERE product_id=(?)', [id], (err)=>{
+        if(err){
+            console.error(err)
+            return res.status(500).json({
+                status: "error",
+                message: "Internal server error"
+            })
+        }
+
+        return res.sendStatus(204)
+    })
 }
