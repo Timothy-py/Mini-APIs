@@ -2,13 +2,19 @@ const router = require('express').Router();
 
 const {
     index, createProduct,
-    getProducts
+    getProducts,
+    getAproduct,
+    updateProduct,
 } = require('../controller/controller');
 
 router.get('/', index);
 
-router.post('/product', createProduct)
+router.post('/products', createProduct);
 
-router.get('/product', getProducts)
+router.get('/products', getProducts);
+
+router.get('/products/:id', getAproduct);
+
+router.put('/products/:id', updateProduct);
 
 module.exports = router;

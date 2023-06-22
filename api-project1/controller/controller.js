@@ -28,7 +28,7 @@ exports.createProduct = (req, res) => {
 // get all products
 exports.getProducts = (req, res) => {
     const LIMIT = parseInt(req.query.LIMIT, 10) || 2
-    // const OFFSET = parseInt(req.query.PAGE, 10) || 1
+    // const OFFSET = parseInt(req.query.PAGE, 10) || 1 
 
     db.all('SELECT id, name, price, description FROM products ORDER BY id LIMIT (?)',[LIMIT], (err, rows)=>{
         if(err){
@@ -44,5 +44,50 @@ exports.getProducts = (req, res) => {
             data: rows,
             total: rows.length
         })
+    })
+}
+
+// get a product detail
+exports.getAproduct = (req, res) => {
+    const {id} = req.params;
+
+    db.get('SELECT id, name, price, description FROM products WHERE id=(?)', [id], (err, row)=>{
+        if(err){
+            console.error(err);
+            return res.status(500).json({
+                staus: 'error',
+                message: 'Internal server error'
+            })
+        }
+        
+        if(!row){
+            return res.status(404).json({
+                status: 'failed',
+                message: 'Product not found.'
+            })
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            data: row
+        })
+    })
+}
+
+// update a product
+exports.updateProduct = (req, res) => {
+    const {id} = req.params;
+    const {name, description, price} = req.body;
+
+    db.run('UPDATE products SET name=(?), price=(?), description=(?) WHERE id=(?)', [name,price,description,id], (err)=>{
+        if(err){
+            console.error(err);
+            return res.status(500).json({
+                staus: 'error',
+                message: 'Internal server error'
+            })
+        }
+
+        return res.sendStatus(204);
     })
 }
