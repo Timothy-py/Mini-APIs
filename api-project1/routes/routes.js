@@ -6,6 +6,7 @@ const {
     getAproduct,
     updateProduct,
     deleteAproduct,
+    addProductToCart
 } = require('../controller/controller');
 
 router.get('/', index);
@@ -19,4 +20,6 @@ router.get('/products/:id', getAproduct);
 router.put('/products/:id', updateProduct);
 
 router.delete('/products/:id', deleteAproduct);
+
+router.post('/cart/:id', addProductToCart);
 module.exports = router;

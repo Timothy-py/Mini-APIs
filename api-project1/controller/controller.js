@@ -105,3 +105,20 @@ exports.deleteAproduct = (req, res) => {
         return res.sendStatus(204);
     })
 }
+
+// add a product to cart
+exports.addProductToCart = (req, res) => {
+    const {id} = req.params;
+
+    db.run('INSERT INTO cart (product_id) VALUES (?)', [id], (err)=>{
+        if(err) return res.status(500).json({
+            status: "error",
+            message: "Internal server error"
+        })
+
+        res.status(201).json({
+            status: "success",
+            message: "Product added to cart"
+        })
+    })
+}

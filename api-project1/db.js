@@ -44,6 +44,15 @@ db.serialize(() => {
         FOREIGN KEY (product_id) REFERENCES products (id)
     )`)
 
+    // add a product to cart
+    db.run('INSERT INTO cart (product_id) VALUES (?)', [1], (err)=>{
+        if(err){
+            console.error('Unable to populate Cart table')
+            process.exit(1)
+        }
+        console.log('Cart table populated successfully')
+    })
+
     // create reviews table
     db.run(`CREATE TABLE IF NOT EXISTS reviews (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
