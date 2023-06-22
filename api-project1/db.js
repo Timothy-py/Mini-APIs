@@ -19,6 +19,24 @@ db.serialize(() => {
         description TEXT
     )`);
 
+    // insert products
+    db.run(`
+    INSERT INTO products (name, price, description) VALUES
+    ('Potato', 200, 'Yellow carbie carbie'),
+    ('Tomato', 100, 'Red perry perry'),
+    ('Apple', 400, 'Green softy softy'),
+    ('Vegetable', 150, 'Green leafy leafy'),
+    ('Meat', 1000, 'Soft meaty meaty'),
+    ('Fish', 600, 'Soft fishy fishy'),
+    ('Melon', 400, 'Delicious soupy soupy')
+    `, (err)=>{
+        if(err){
+            console.error('Unable to populate Product table')
+            process.exit(1)
+        }
+        console.log('Product table populated successfully')
+    })
+
     // create cart table
     db.run(`CREATE TABLE IF NOT EXISTS cart (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -27,7 +27,10 @@ exports.createProduct = (req, res) => {
 
 // get all products
 exports.getProducts = (req, res) => {
-    db.all('SELECT id, name, price, description FROM products', (err, rows)=>{
+    const LIMIT = parseInt(req.query.LIMIT, 10) || 2
+    // const OFFSET = parseInt(req.query.PAGE, 10) || 1
+
+    db.all('SELECT id, name, price, description FROM products ORDER BY id LIMIT (?)',[LIMIT], (err, rows)=>{
         if(err){
             console.error(err)
             return res.status(500).json({
@@ -38,7 +41,8 @@ exports.getProducts = (req, res) => {
 
         return res.status(200).json({
             status: 'success',
-            data: rows
+            data: rows,
+            total: rows.length
         })
     })
 }
