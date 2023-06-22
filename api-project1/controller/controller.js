@@ -121,4 +121,23 @@ exports.addProductToCart = (req, res) => {
             message: "Product added to cart"
         })
     })
+};
+
+// get all products in cart
+exports.getCart = (req, res) => {
+    db.all('SELECT product_id, name, price, description FROM cart INNER JOIN products ON cart.product_id=products.id', (err, rows)=>{
+        if(err){
+            console.error(err)
+            return res.status(500).json({
+                status: "error",
+                message: "Internal server error"
+            })
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            message: 'All products in cart',
+            data: rows
+        })
+    })
 }
