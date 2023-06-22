@@ -90,4 +90,18 @@ exports.updateProduct = (req, res) => {
 
         return res.sendStatus(204);
     })
+};
+
+// delete a product
+exports.deleteAproduct = (req, res) => {
+    const {id} = req.params;
+
+    db.run('DELETE FROM products WHERE id=(?)', [id], (err)=>{
+        if(err) return res.status(500).json({
+            status: "error",
+            message: "Internal server error"
+        })
+
+        return res.sendStatus(204);
+    })
 }
